@@ -16,11 +16,11 @@ def cash_withdraw(a, balance):
 
 
 def main_loop():
+    balance = 0
     while True:
-        balance = 0
         command = input("What do you want to do?\n> ")
         if command.lower() == "help":
-            print("Available commands: \n>DEPOSIT \n>WITHDRAW \n>BALANCE \n>EXIT\n")
+            print("\nAvailable commands: \n>DEPOSIT \n>WITHDRAW \n>BALANCE \n>EXIT\n")
         elif command.lower() == "deposit":
             try:
                 a = float(input("insert deposit amount: "))
@@ -48,7 +48,7 @@ def main_loop():
             print("Goodbye!")
             break
         else:
-            print("Unknown command. Type HELP for available commands..")
+            print("Unknown command. Type HELP for available commands...")
 
 
 def log_in_procedure():
