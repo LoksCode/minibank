@@ -1,10 +1,20 @@
 import time
+import random
 
 
 # --------------------------------------------- funkcje ---------------------------------------------
 
 client_list = ["client1", "client2", "client3"]
 password_list = ["pw123", "pw456", "pw789"]
+
+def cards_options():
+    print('1. Add new card.')
+    print('2. Restrict a card.')
+    print('3. Show list of your cards.')
+    print('4. Exit')
+
+def commands_available():
+    print("\nAvailable commands: \n>DEPOSIT \n>WITHDRAW \n>BALANCE \n>CARDS \n>EXIT\n")
 
 
 def cash_deposit(a, balance):
@@ -15,12 +25,58 @@ def cash_withdraw(a, balance):
     return balance - a
 
 
+def pick_option():
+    while True:
+        i = input('What do you want to do? (1-4): ')
+        try:
+            numb = int(i)
+        except ValueError:
+            print('To musi być liczba')
+            continue
+        if 1 <= numb <= 6:
+            return numb
+        print('This must be a number between 1 and 4.')
+
+
+def cards_add():
+    card = random.randint(1000, 9999)
+    cards_active.append(card)
+    return card
+
+
+def cards_restrict():
+    task = int(input("Which card do You want to restrict? "))
+    cards_active.remove(task)
+    cards_restricted.append(task)
+    return task
+
+
+def cards_main_loop():
+    while True:
+        cards_options()
+        option = pick_option()
+        if option == 1:
+            print("Card no.", cards_add(), "was added to your account.\n")
+        elif option == 2:
+            print("Card no.", cards_restrict(), "has been restricted.\n")
+        elif option == 3:
+            print("Active cards:")
+            for numer, crd_numb in enumerate(cards_active):
+                print(numer + 1, crd_numb)
+            print("Restricted cards:")
+            for numer, crd_numb in enumerate(cards_restricted):
+                print(numer + 1, crd_numb)
+        elif option == 4:
+            return
+
+
 def main_loop():
     balance = 0
     while True:
+        (commands_available())
         command = input("What do you want to do?\n> ")
         if command.lower() == "help":
-            print("\nAvailable commands: \n>DEPOSIT \n>WITHDRAW \n>BALANCE \n>EXIT\n")
+            (commands_available())
         elif command.lower() == "deposit":
             try:
                 a = float(input("insert deposit amount: "))
@@ -28,10 +84,10 @@ def main_loop():
                 print(f"{a}PLN has been deposited. Balance: {balance}.")
             except ValueError:
                 print("Deposit amount must be an number.")
-        elif command.lower() == "wyithdraw":
+        elif command.lower() == "withdraw":
             if balance > 0:
                 try:
-                    a = float(input("kwota wypłaty: "))
+                    a = float(input("insert withdraw amount: "))
                     if a <= balance:
                         balance = cash_withdraw(a, balance)
                         print(f"{a}PLN has been withdrawn. Balance: {balance}.")
@@ -43,6 +99,8 @@ def main_loop():
                 print(f"Insufficient funds. Your balance is:{balance}.")
         elif command.lower() == "balance":
             print(f"Your balance is: {balance}PLN")
+        elif command.lower() == "cards":
+            cards_main_loop()
         elif command.lower() == "exit":
             print("End of program.")
             print("Goodbye!")
@@ -69,6 +127,9 @@ def log_in_procedure():
         print("Too many attempts - account has been blocked...")
         quit()
 
+
+cards_active = []
+cards_restricted = []
 
 print("Welcome to minibank! \n\nPlease log in:\n")
 print("--Login--\n")
