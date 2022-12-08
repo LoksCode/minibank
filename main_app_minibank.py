@@ -14,7 +14,7 @@ def cards_options():
     print('4. Exit')
 
 def commands_available():
-    print("\nAvailable commands: \n>DEPOSIT \n>WITHDRAW \n>BALANCE \n>CARDS \n>EXIT\n")
+    print("\nAvailable commands: \n>DEPOSIT \n>WITHDRAW \n>BALANCE \n>CARDS \n>EXIT")
 
 
 def cash_deposit(a, balance):
@@ -27,13 +27,13 @@ def cash_withdraw(a, balance):
 
 def pick_option():
     while True:
-        i = input('What do you want to do? (1-4): ')
+        i = input('\nWhat do you want to do? (1-4): ')
         try:
             numb = int(i)
         except ValueError:
             print('To musi być liczba')
             continue
-        if 1 <= numb <= 6:
+        if 1 <= numb <= 4:
             return numb
         print('This must be a number between 1 and 4.')
 
@@ -45,9 +45,12 @@ def cards_add():
 
 
 def cards_restrict():
-    task = int(input("Which card do You want to restrict? "))
-    cards_active.remove(task)
-    cards_restricted.append(task)
+    task = int(input("Insert 4-digit number of a card that is going to be restricted: "))
+    if task >= 1000 and task <= 9999:
+        cards_active.remove(task)
+        cards_restricted.append(task)
+    else:
+        print("\nERROR: This must be an 4-digit number. Please try again.")
     return task
 
 
@@ -56,9 +59,12 @@ def cards_main_loop():
         cards_options()
         option = pick_option()
         if option == 1:
-            print("Card no.", cards_add(), "was added to your account.\n")
+            print("\nCard no.", cards_add(), "was added to your account.")
         elif option == 2:
-            print("Card no.", cards_restrict(), "has been restricted.\n")
+            print("\nActive cards:")
+            for numer, crd_numb in enumerate(cards_active):
+                print(numer + 1, crd_numb)
+            print("\nCard no.", cards_restrict(), "has been restricted.")
         elif option == 3:
             print("Active cards:")
             for numer, crd_numb in enumerate(cards_active):
@@ -74,7 +80,7 @@ def main_loop():
     balance = 0
     while True:
         (commands_available())
-        command = input("What do you want to do?\n> ")
+        command = input("\nWhat do you want to do?\n> ")
         if command.lower() == "help":
             (commands_available())
         elif command.lower() == "deposit":
